@@ -21,8 +21,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-const Heroku = require('heroku-client')
-const heroku = new Heroku({ token: process.env.HEROKU_API_TOKEN })
 
 const drawerWidth = 300;
 
@@ -42,15 +40,13 @@ function FilterBar(props) {
       "&hrank=" +
       "10" +
       "&p1=" +
-      priority2 +
+      priority1 +
       "&p2=" +
-      priority1;
+      priority2;
     console.log(fetchURL);
-    heroku.request({
-      method: 'GET',
-      path: fetchURL,
-      parseJSON: true
-    }).then(response => {console.log(response)})
+    fetch(fetchURL)
+      .then((response) => response.json())
+      .then((data) => props.greet(data));
   };
 
   const { window } = props;
@@ -98,7 +94,7 @@ function FilterBar(props) {
         </Typography>
         <Divider />
         <List align="left">
-          <FormControl theme={theme}>
+          {/* <FormControl theme={theme}>
             <FormLabel
               id="demo-row-radio-buttons-group-label"
               align="left"
@@ -124,7 +120,7 @@ function FilterBar(props) {
                 label="Advanced"
               />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
           <Box>
             <TextField
               fullWidth
@@ -159,9 +155,12 @@ function FilterBar(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={"Electronics"}>EEE</MenuItem>
-            <MenuItem value={"Electrical"}>ECE</MenuItem>
-            <MenuItem value={"Chemical"}>VIT</MenuItem>
+            <MenuItem value={"cs"}>Computer Science</MenuItem>
+            <MenuItem value={"Electronics"}>Electronics</MenuItem>
+            <MenuItem value={"Electrical"}>Electrical</MenuItem>
+            <MenuItem value={"Chemical"}>Chemical</MenuItem>
+            <MenuItem value={"Civil"}>Civil</MenuItem>
+            <MenuItem value={"Mechanical"}>Mechanical</MenuItem>
           </Select>
           <InputLabel id="demo-simple-select-autowidth-label" align="left">
             Priority 2
@@ -176,11 +175,14 @@ function FilterBar(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={"Electronics"}>CSE</MenuItem>
-            <MenuItem value={"Electrical"}>ECE</MenuItem>
-            <MenuItem value={22}>VIT</MenuItem>
+            <MenuItem value={"cs"}>Computer Science</MenuItem>
+            <MenuItem value={"Electronics"}>Electronics</MenuItem>
+            <MenuItem value={"Electrical"}>Electrical</MenuItem>
+            <MenuItem value={"Chemical"}>Chemical</MenuItem>
+            <MenuItem value={"Civil"}>Civil</MenuItem>
+            <MenuItem value={"Mechanical"}>Mechanical</MenuItem>
           </Select>
-          <Divider />
+          {/* <Divider />
 
           <InputLabel id="demo-simple-select-autowidth-label" align="left">
             Catagory
@@ -198,10 +200,10 @@ function FilterBar(props) {
             <MenuItem value={"Electronics"}>General</MenuItem>
             <MenuItem value={"Electrical"}>God</MenuItem>
             <MenuItem value={22}>Demigod</MenuItem>
-          </Select>
+          </Select>*/}
           <Button onClick={applyFilters} color="primary" theme={theme}>
             Apply
-          </Button>
+          </Button> 
         </List>
       </MuiThemeProvider>
     </div>
