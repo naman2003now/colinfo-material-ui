@@ -20,17 +20,35 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const drawerWidth = 300;
 
 function FilterBar(props) {
+  const theme = createMuiTheme({
+    palette: {
+      primary: { main: "#0496ff" }, // Purple and green play nicely together.
+      secondary: { main: "#365B6D" }, // This is just green.A700 as hex.
+    },
+    typography: { useNextVariants: true },
+  });
 
   const applyFilters = () => {
-    const fetchURL = "http://localhost:5000/predict?lrank=" + lrank + "&hrank=" + hrank + "&p1=" + priority2 + "&p2=" + priority1
-    console.log(fetchURL)
-    fetch(fetchURL).then(response => response.json()).then((data) => props.greet(data))
-    props.greet()
-  }
+    const fetchURL =
+      "http://localhost:5000/predict?lrank=" +
+      lrank +
+      "&hrank=" +
+      "10" +
+      "&p1=" +
+      priority2 +
+      "&p2=" +
+      priority1;
+    console.log(fetchURL);
+    fetch(fetchURL)
+      .then((response) => response.json())
+      .then((data) => props.greet(data));
+    props.greet();
+  };
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -46,7 +64,7 @@ function FilterBar(props) {
   };
 
   const [priority2, setpriority2] = React.useState("");
-  const [hrank, sethrank] = React.useState(1);
+  const [Catagory, setcatagory] = React.useState(1);
   const [lrank, setlrank] = React.useState(100000);
 
   const handlePriority2Change = (event) => {
@@ -54,51 +72,66 @@ function FilterBar(props) {
   };
 
   const handleLChange = (event) => {
-    setlrank(event.target.value)
-  }
+    setlrank(event.target.value);
+  };
 
-  const handleHChange = (event) => {
-    sethrank(event.target.value)
-  }
-
-
-
+  const handleCatagoryChange = (event) => {
+    setcatagory(event.target.value);
+  };
 
   const drawer = (
     <div className="whatDrawer">
-      <Toolbar />
-      <Typography varient="h1" fontSize={50} align="left">
-        Filters
-      </Typography>
-      <Divider />
-      <List align="left">
-        <FormControl>
-          <FormLabel id="demo-row-radio-buttons-group-label" align="left">
-            Exam
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-          >
-            <FormControlLabel value="Mains" control={<Radio />} label="Mains" />
-            <FormControlLabel
-              value="Advanced"
-              control={<Radio />}
-              label="Advanced"
+      <MuiThemeProvider theme={theme}>
+        <Toolbar />
+        <Typography
+          varient="h1"
+          fontSize={50}
+          align="left"
+          style={{ marginTop: -30 }}
+          color="primary"
+          theme={theme}
+        >
+          Filters
+        </Typography>
+        <Divider />
+        <List align="left">
+          <FormControl theme={theme}>
+            <FormLabel
+              id="demo-row-radio-buttons-group-label"
+              align="left"
+              theme={theme}
+            >
+              Exam
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              color="primary"
+              theme={theme}
+            >
+              <FormControlLabel
+                value="Mains"
+                control={<Radio />}
+                label="Mains"
+              />
+              <FormControlLabel
+                value="Advanced"
+                control={<Radio />}
+                label="Advanced"
+              />
+            </RadioGroup>
+          </FormControl>
+          <Box>
+            <TextField
+              fullWidth
+              id="lrank"
+              value={lrank}
+              onChange={handleLChange}
+              label="Rank"
+              variant="standard"
             />
-          </RadioGroup>
-        </FormControl>
-        <Box>
-          <TextField
-            fullWidth
-            id="lrank"
-            value={lrank}
-            onChange={handleLChange}
-            label="Rank"
-            variant="standard"
-          />
-          {/* <TextField
+            {/* <TextField
             fullWidth
             id="urank"
             value={hrank}
@@ -106,46 +139,68 @@ function FilterBar(props) {
             label="Upper rank"
             variant="standard"
           /> */}
-        </Box>
-      </List>
-      <Divider />
-      <List>
-        <InputLabel id="demo-simple-select-autowidth-label" align="left">
-          Priority 1
-        </InputLabel>
-        <Select
-          fullWidth
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={priority1}
-          onChange={handlePriority1Change}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={"Electronics"}>EEE</MenuItem>
-          <MenuItem value={"Electrical"}>ECE</MenuItem>
-          <MenuItem value={"Chemical"}>VIT</MenuItem>
-        </Select>
-        <InputLabel id="demo-simple-select-autowidth-label" align="left">
-          Priority 2
-        </InputLabel>
-        <Select
-          fullWidth
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={priority2}
-          onChange={handlePriority2Change}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={"Electronics"}>CSE</MenuItem>
-          <MenuItem value={"Electrical"}>ECE</MenuItem>
-          <MenuItem value={22}>VIT</MenuItem>
-        </Select>
-        <Button onClick={applyFilters} >Apply</Button>
-      </List>
+          </Box>
+        </List>
+        <Divider />
+        <List>
+          <InputLabel id="demo-simple-select-autowidth-label" align="left">
+            Priority 1
+          </InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-autowidth-label"
+            id="demo-simple-select-autowidth"
+            value={priority1}
+            onChange={handlePriority1Change}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={"Electronics"}>EEE</MenuItem>
+            <MenuItem value={"Electrical"}>ECE</MenuItem>
+            <MenuItem value={"Chemical"}>VIT</MenuItem>
+          </Select>
+          <InputLabel id="demo-simple-select-autowidth-label" align="left">
+            Priority 2
+          </InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-autowidth-label"
+            id="demo-simple-select-autowidth"
+            value={priority2}
+            onChange={handlePriority2Change}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={"Electronics"}>CSE</MenuItem>
+            <MenuItem value={"Electrical"}>ECE</MenuItem>
+            <MenuItem value={22}>VIT</MenuItem>
+          </Select>
+          <Divider />
+
+          <InputLabel id="demo-simple-select-autowidth-label" align="left">
+            Catagory
+          </InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-autowidth-label"
+            id="demo-simple-select-autowidth"
+            value={Catagory}
+            onChange={handleCatagoryChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={"Electronics"}>General</MenuItem>
+            <MenuItem value={"Electrical"}>God</MenuItem>
+            <MenuItem value={22}>Demigod</MenuItem>
+          </Select>
+          <Button onClick={applyFilters} color="primary" theme={theme}>
+            Apply
+          </Button>
+        </List>
+      </MuiThemeProvider>
     </div>
   );
 
@@ -161,6 +216,7 @@ function FilterBar(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
+        style={{ backgroundColor: "#0496ff" }}
       >
         <Toolbar>
           <IconButton
