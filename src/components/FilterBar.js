@@ -11,16 +11,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import "./FilterBar.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+const axios = require("axios")
 
 const drawerWidth = 300;
 
@@ -43,6 +39,7 @@ function FilterBar(props) {
       priority1 +
       "&p2=" +
       priority2;
+    
     console.log(fetchURL);
     fetch(fetchURL)
       .then((response) => response.json())
@@ -203,7 +200,7 @@ function FilterBar(props) {
           </Select>*/}
           <Button onClick={applyFilters} color="primary" theme={theme}>
             Apply
-          </Button> 
+          </Button>
         </List>
       </MuiThemeProvider>
     </div>
