@@ -21,6 +21,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+const Heroku = require('heroku-client')
+const heroku = new Heroku({ token: process.env.HEROKU_API_TOKEN })
 
 const drawerWidth = 300;
 
@@ -44,10 +46,11 @@ function FilterBar(props) {
       "&p2=" +
       priority1;
     console.log(fetchURL);
-    fetch(fetchURL)
-      .then((response) => response.json())
-      .then((data) => props.greet(data));
-    props.greet();
+    heroku.request({
+      method: 'GET',
+      path: fetchURL,
+      parseJSON: true
+    }).then(response => {console.log(response)})
   };
 
   const { window } = props;
