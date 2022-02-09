@@ -35,7 +35,7 @@ function FilterBar(props) {
 
   const applyFilters = () => {
     const fetchURL =
-      "http://localhost:5000/predict?lrank=" +
+      "https://aqawewe.herokuapp.com/predict?lrank=" +
       lrank +
       "&hrank=" +
       "10" +
